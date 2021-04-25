@@ -5,14 +5,19 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@drawable/spline"
     android:gravity="center"
     android:layout_height="match_parent"
     tools:context=".signup.loginActivity">
 
     <EditText
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:id="@+id/loginEmail"
@@ -23,12 +28,15 @@
         android:layout_margin="10dp"
         android:hint="Password"
         android:inputType="textPassword"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:id="@+id/loginPassword"
         />
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Log in"
+        android:background="@drawable/button"
         android:id="@+id/loginButton"
         />
     <TextView
@@ -36,6 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Don't have an accout? Sign up here."
+        android:textColor="#000000"
+        android:textSize="15sp"
+
         android:id="@+id/loginText"
         />
 </LinearLayout>

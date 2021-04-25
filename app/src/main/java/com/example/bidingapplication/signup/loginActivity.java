@@ -31,7 +31,7 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         email= findViewById(R.id.loginEmail);
-        password = findViewById(R.id.loginEmail);
+        password = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.loginButton);
         text = findViewById(R.id.loginText);
         progressDialog = new ProgressDialog(this);

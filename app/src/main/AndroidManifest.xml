@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BidingApplication">
-        <activity android:name=".signup.signupActivity"></activity>
+        <activity android:name=".itemStuff.createItemActivity"></activity>
+        <activity android:name=".signup.signupActivity" />
         <activity android:name=".signup.loginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
