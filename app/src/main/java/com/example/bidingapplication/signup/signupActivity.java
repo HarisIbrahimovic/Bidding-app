@@ -51,7 +51,8 @@ public class signupActivity extends AppCompatActivity {
                 String Password = password.getText().toString();
                 if(TextUtils.isEmpty(Email)||TextUtils.isEmpty(Password)){
                     Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
-                    return;}
+                    return;
+                }
                 progressDialog.show();
                 auth = FirebaseAuth.getInstance();
                 auth.createUserWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
