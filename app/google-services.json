@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1073789891540",
+    "project_id": "biddingapp-bf640",
+    "storage_bucket": "biddingapp-bf640.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073789891540:android:9de1a3108fae64e53ddc41",
+        "android_client_info": {
+          "package_name": "com.example.bidingapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073789891540-lpit15c3dn2117dgov6470s0vhsp4huo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvdFLM16e-FXHyYEQQge8eWIYa5oWc--0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073789891540-lpit15c3dn2117dgov6470s0vhsp4huo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
