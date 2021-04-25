@@ -64,7 +64,8 @@ public class signupActivity extends AppCompatActivity {
                         finish();}else {
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Problems",Toast.LENGTH_SHORT).show();
-                        }}                });
+                        }}
+                });
             }
         });
     }
