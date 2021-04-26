@@ -45,7 +45,6 @@ public class signupActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 progressDialog.setMessage("Processing..");
                 String Email = email.getText().toString();
                 String Password = password.getText().toString();
