@@ -5,6 +5,11 @@ public class item {
     private String desc;
     private String imageUrl;
     private String price;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
 
     public String getDesc() {
         return desc;

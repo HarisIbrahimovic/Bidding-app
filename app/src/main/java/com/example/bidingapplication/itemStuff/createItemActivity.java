@@ -40,16 +40,17 @@ public class createItemActivity extends AppCompatActivity {
     private String imageUrl;
     private DatabaseReference databaseReference;
     private ProgressDialog progressDialogOne;
+    private String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
+        getIncomingIntent();
         itemName = findViewById(R.id.createItemName);
         commit = findViewById(R.id.createItemButton);
         startPrice = findViewById(R.id.createItemPrice);
         itemImage = findViewById(R.id.createItemImage);
         itemDesc = findViewById(R.id.createItemDesc);
-
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference =firebaseStorage.getReference();
         itemImage.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +81,7 @@ public class createItemActivity extends AppCompatActivity {
                 item.put("desc",desc);
                 item.put("price",price);
                 item.put("imageUrl",imageUrl);
+                item.put("username",userName);
                 databaseReference.push().setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -95,6 +97,13 @@ public class createItemActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getIncomingIntent() {
+        if(getIntent().hasExtra("username")){
+            userName =getIntent().getStringExtra("username");
+        }
+    }
+
     private void chosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -116,8 +125,7 @@ public class createItemActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading..");
         progressDialog.show();
         StorageReference ref = storageReference.child("images/"+randomKey);
-        imageUrl = ref.toString();
-        Toast.makeText(getApplicationContext(),ref.toString(),Toast.LENGTH_LONG).show();
+        imageUrl = imageUri.toString();
         ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
