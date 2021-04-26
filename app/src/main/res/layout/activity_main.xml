@@ -9,7 +9,12 @@
     tools:context=".MainActivity">
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"> d
+    android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/itemRecyclerView"
+        />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
