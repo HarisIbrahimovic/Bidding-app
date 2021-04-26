@@ -10,14 +10,34 @@
     android:gravity="center"
     tools:context=".signup.signupActivity">
 
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginBottom="140dp"
+        android:id="@+id/profilePic"
+        />
+    <EditText
+        android:layout_marginTop="-130dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:inputType="textEmailAddress"
+        android:id="@+id/signUpUsername"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+
         android:hint="Email"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:inputType="textEmailAddress"
         android:id="@+id/signuEmail"
