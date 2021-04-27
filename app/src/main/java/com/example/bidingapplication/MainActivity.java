@@ -144,5 +144,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
         intent.putExtra("id",items.get(position).getId());
         intent.putExtra("currentUserName",currentUser.getUsername());
         intent.putExtra("curentBestBid",items.get(position).getBestBid());
+        intent.putExtra("ownerId",items.get(position).getOwnerId());
         startActivity(intent);  }
 }

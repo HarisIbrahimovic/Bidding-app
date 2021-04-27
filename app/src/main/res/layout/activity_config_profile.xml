@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/tabdesign"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context=".profile.configProfileActivity">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/configProfilePicture"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/configUserName"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/configUserEmail"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:layout_margin="10dp"
+        android:id="@+id/configUserPass"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Update profile"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:id="@+id/configUpdateButton"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Delete profile"
+        android:textColor="#A10202"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:id="@+id/configDeleteButton"
+        />
+
+</LinearLayout>

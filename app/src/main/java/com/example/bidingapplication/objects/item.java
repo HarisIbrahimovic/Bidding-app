@@ -8,6 +8,10 @@ public class item {
     private String username;
     private String id;
     private String bestBid;
+    private String ownerId;
+    public String getOwnerId() {
+        return ownerId;
+    }
 
     public String getBestBid() {
         return bestBid;

@@ -19,6 +19,7 @@ import com.example.bidingapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,6 +42,7 @@ public class createItemActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ProgressDialog progressDialogOne;
     private String userName;
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,7 @@ public class createItemActivity extends AppCompatActivity {
         progressDialogOne.setMessage("Processing..");
         databaseReference = FirebaseDatabase.getInstance().getReference("Items");
         final String randomKey = UUID.randomUUID().toString();
+        auth = FirebaseAuth.getInstance();
         HashMap<String, String> item = new HashMap<>();
         item.put("name",name);
         item.put("desc",desc);
@@ -85,6 +88,7 @@ public class createItemActivity extends AppCompatActivity {
         item.put("username",userName);
         item.put("id",randomKey);
         item.put("bestBid","none");
+        item.put("ownerId",auth.getCurrentUser().getUid());
         databaseReference.child(randomKey).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

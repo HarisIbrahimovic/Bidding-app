@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,7 +21,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.bidingapplication.R;
+import com.example.bidingapplication.objects.User;
 import com.example.bidingapplication.objects.item;
+import com.example.bidingapplication.profile.lookOtherProfileActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,14 +41,17 @@ public class detailedItemActivity extends AppCompatActivity {
     private EditText newPrice;
     private TextView description;
     private TextView itemname;
-    private TextView itemOwner;
     private TextView itemPrice;
     private Button submit;
     private ImageView itemImage;
     private item curentItem;
+    private String ownerId;
     private TextView currentBestBid;
     private DatabaseReference databaseReference;
+    private FloatingActionButton ownerProfile;
     private String currentBestBidString;
+    private DatabaseReference userReference;
+    private User owner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +77,16 @@ public class detailedItemActivity extends AppCompatActivity {
                 changeItem.child("bestBid").setValue(incomingCurrentUsername);
                 Toast.makeText(getApplicationContext(), "Bid placed", Toast.LENGTH_SHORT).show();
                 currentBestBid.setText("Current best bid: "+ incomingCurrentUsername);
-                itemPrice.setText(newPriceInput);
+                itemPrice.setText("$"+newPriceInput);
+            }
+        });
+        userReference = FirebaseDatabase.getInstance().getReference("Users");
+        ownerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),lookOtherProfileActivity.class);
+                intent.putExtra("id",ownerId);
+                startActivity(intent);
             }
         });
     }
@@ -95,7 +112,6 @@ public class detailedItemActivity extends AppCompatActivity {
         submit = findViewById(R.id.submitNewPrice);
         description = findViewById(R.id.detailItemDescription);
         itemname = findViewById(R.id.detailedItemName);
-        itemOwner = findViewById(R.id.detailedItemUserName);
         itemImage = findViewById(R.id.detailedItemImage);
         itemPrice = findViewById(R.id.currentPrice);
         itemImage.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -103,8 +119,8 @@ public class detailedItemActivity extends AppCompatActivity {
         load(incomingPicture).into(itemImage);
         description.setText(incomingDesc);
         itemname.setText(incomingName);
-        itemOwner.setText(incomingUsername);
-        itemPrice.setText(incomingPrice);
+        ownerProfile = findViewById(R.id.seeOwnerProfile);
+        itemPrice.setText("$"+incomingPrice);
         currentBestBid = findViewById(R.id.currentBestBid);
         currentBestBid.setText("Current best bid: "+ currentBestBidString);
     }
@@ -120,6 +136,7 @@ public class detailedItemActivity extends AppCompatActivity {
             incomingId = getIntent().getStringExtra("id");
             price = Double.parseDouble(incomingPrice);
             currentBestBidString = getIntent().getStringExtra("curentBestBid");
+            ownerId = getIntent().getStringExtra("ownerId");
         }
     }
 }
