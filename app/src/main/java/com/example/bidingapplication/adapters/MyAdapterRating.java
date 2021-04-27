@@ -17,12 +17,10 @@ import java.util.ArrayList;
 public class MyAdapterRating extends RecyclerView.Adapter<MyAdapterRating.MyViewHolder> {
     Context context;
     ArrayList<rating> ratings;
-
     public MyAdapterRating(Context context, ArrayList<rating> ratings) {
         this.context = context;
         this.ratings = ratings;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

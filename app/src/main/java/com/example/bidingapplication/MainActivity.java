@@ -62,17 +62,10 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1: snapshot.getChildren()){
-                    try {
-                        if(snapshot1.getKey().equals(auth.getCurrentUser().getUid())){
-                            currentUser= snapshot1.getValue(User.class);
-                            break;
-                        }
+                    if(snapshot1.getKey().equals(auth.getCurrentUser().getUid())){
+                        currentUser= snapshot1.getValue(User.class);
+                        break;
                     }
-                    catch(Exception e) {
-
-                    }
-
-
                 }
             }
             @Override

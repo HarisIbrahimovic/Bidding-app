@@ -28,12 +28,14 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
     private DatabaseReference messageReference;
     private ArrayList<User> users;
     private FirebaseAuth auth;
+    private ArrayList<String> usersIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_messages);
         recyclerView = findViewById(R.id.myMessRecView);
         users = new ArrayList<>();
+        usersIds=new ArrayList<>();
         myAdapterUsers = new MyAdapterUsers(users,getApplicationContext(), this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -41,6 +43,8 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
         auth = FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference("Users");
         messageReference = FirebaseDatabase.getInstance().getReference("Messages");
+        users.clear();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -49,7 +53,6 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
                     messageReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            users.clear();
                             for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                                 message Message = dataSnapshot.getValue(message.class);
                                 if(Message.getReciverId().equals(auth.getCurrentUser().getUid())||Message.getSenderId().equals(auth.getCurrentUser().getUid())) {
@@ -57,7 +60,9 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
 
                                     }
                                     else {
+                                        if(usersIds.contains(user.getId()))break;
                                         users.add(user);
+                                        usersIds.add(user.getId());
                                         break;
                                     }
                                 }
@@ -85,6 +90,7 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
 
     @Override
     public void onNoteClick(int position) {
+
         Intent intent = new Intent(getApplicationContext(),messagingActivity.class);
         intent.putExtra("id",users.get(position).getId());
         startActivity(intent);
