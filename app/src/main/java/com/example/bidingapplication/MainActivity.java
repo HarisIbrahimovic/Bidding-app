@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        configWidgets();
         auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser()==null){
             startActivity(new Intent(getApplicationContext(),loginActivity.class));
             finish();
-            return;
         }
+        setContentView(R.layout.activity_main);
+        configWidgets();
+
         items = new ArrayList<>();
         myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
         recyclerView.setHasFixedSize(true);
@@ -62,13 +62,19 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1: snapshot.getChildren()){
-                    if(snapshot1.getKey().equals(auth.getCurrentUser().getUid())){
-                        currentUser= snapshot1.getValue(User.class);
-                        break;
+                    try {
+                        if(snapshot1.getKey().equals(auth.getCurrentUser().getUid())){
+                            currentUser= snapshot1.getValue(User.class);
+                            break;
+                        }
                     }
+                    catch(Exception e) {
+
+                    }
+
+
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -86,13 +92,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
                     }
                 myAdapterItems.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

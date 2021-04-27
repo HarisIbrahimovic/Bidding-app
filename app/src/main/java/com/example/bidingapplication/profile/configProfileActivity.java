@@ -21,8 +21,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.bidingapplication.R;
 import com.example.bidingapplication.signup.loginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +45,7 @@ public class configProfileActivity extends AppCompatActivity {
     private String UserPassword;
     private String UserPicture;
     private ImageView image;
-    private Button updateButton, deleteButton;
+    private Button updateButton;
     private EditText name, email, password;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
@@ -79,30 +82,7 @@ public class configProfileActivity extends AppCompatActivity {
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Warning").setMessage("Are you sure?").setPositiveButton("Yes",null).setNegativeButton("No", null).show();
-                Button positiveButton = dialog.getButton(dialog.BUTTON_POSITIVE);
-                Button neagtiveButton = dialog.getButton(dialog.BUTTON_NEGATIVE);
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        databaseReference.child(auth.getCurrentUser().getUid()).removeValue();
-                        auth.getCurrentUser().delete();
-                        startActivity(new Intent(getApplicationContext(), loginActivity.class));
-                        finish();
-                    }
-                });
-                neagtiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        return;
-                    }
-                });
-            }
-        });
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +93,6 @@ public class configProfileActivity extends AppCompatActivity {
 
     private void configWidgets() {
         updateButton = findViewById(R.id.configUpdateButton);
-        deleteButton = findViewById(R.id.configDeleteButton);
         name = findViewById(R.id.configUserName);
         email = findViewById(R.id.configUserEmail);
         password = findViewById(R.id.configUserPass);

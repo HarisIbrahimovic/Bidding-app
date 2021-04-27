@@ -77,6 +77,8 @@ public class ratingsActivity extends AppCompatActivity {
                 newRating.put("desc",desc);
                 databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Ratings");
                 databaseReference.push().setValue(newRating);
+                Toast.makeText(getApplicationContext(), "Rating added.", Toast.LENGTH_SHORT).show();
+                finish();
 
             }
         });

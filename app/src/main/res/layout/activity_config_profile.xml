@@ -51,14 +51,5 @@
         android:background="@drawable/button"
         android:id="@+id/configUpdateButton"
         />
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Delete profile"
-        android:textColor="#A10202"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button"
-        android:id="@+id/configDeleteButton"
-        />
 
 </LinearLayout>
