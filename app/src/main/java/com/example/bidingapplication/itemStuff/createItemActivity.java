@@ -46,13 +46,7 @@ public class createItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
         getIncomingIntent();
-        itemName = findViewById(R.id.createItemName);
-        commit = findViewById(R.id.createItemButton);
-        startPrice = findViewById(R.id.createItemPrice);
-        itemImage = findViewById(R.id.createItemImage);
-        itemDesc = findViewById(R.id.createItemDesc);
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference =firebaseStorage.getReference();
+        configWidgets();
         itemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,40 +56,57 @@ public class createItemActivity extends AppCompatActivity {
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = itemName.getText().toString();
-                String desc = itemDesc.getText().toString();
-                String price = startPrice.getText().toString();
-                if(TextUtils.isEmpty(name)||TextUtils.isEmpty(desc)||TextUtils.isEmpty(price)){
-                    Toast.makeText(getApplicationContext(), "Fill in the fields.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(imageUrl==null){
-                    Toast.makeText(getApplicationContext(),"Select picture",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressDialogOne = new ProgressDialog(getApplicationContext());
-                progressDialogOne.setMessage("Processing..");
-                databaseReference = FirebaseDatabase.getInstance().getReference("Items");
-                HashMap<String, String> item = new HashMap<>();
-                item.put("name",name);
-                item.put("desc",desc);
-                item.put("price",price);
-                item.put("imageUrl",imageUrl);
-                item.put("username",userName);
-                databaseReference.push().setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Succesfully added", Toast.LENGTH_SHORT).show();
-                            progressDialogOne.dismiss();
-                            finish();
-                        }
-                        else Toast.makeText(getApplicationContext(), "Problems..", Toast.LENGTH_SHORT).show();
-                        progressDialogOne.dismiss();
-                    }
-                });
+                createNewItem();
             }
         });
+    }
+
+    private void createNewItem() {
+        String name = itemName.getText().toString();
+        String desc = itemDesc.getText().toString();
+        String price = startPrice.getText().toString();
+        if(TextUtils.isEmpty(name)||TextUtils.isEmpty(desc)||TextUtils.isEmpty(price)){
+            Toast.makeText(getApplicationContext(), "Fill in the fields.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(imageUrl==null){
+            Toast.makeText(getApplicationContext(),"Select picture",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialogOne = new ProgressDialog(getApplicationContext());
+        progressDialogOne.setMessage("Processing..");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
+        final String randomKey = UUID.randomUUID().toString();
+        HashMap<String, String> item = new HashMap<>();
+        item.put("name",name);
+        item.put("desc",desc);
+        item.put("price",price);
+        item.put("imageUrl",imageUrl);
+        item.put("username",userName);
+        item.put("id",randomKey);
+        item.put("bestBid","none");
+        databaseReference.child(randomKey).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Succesfully added", Toast.LENGTH_SHORT).show();
+                    progressDialogOne.dismiss();
+                    finish();
+                }
+                else Toast.makeText(getApplicationContext(), "Problems..", Toast.LENGTH_SHORT).show();
+                progressDialogOne.dismiss();
+            }
+        });
+    }
+
+    private void configWidgets() {
+        itemName = findViewById(R.id.createItemName);
+        commit = findViewById(R.id.createItemButton);
+        startPrice = findViewById(R.id.createItemPrice);
+        itemImage = findViewById(R.id.createItemImage);
+        itemDesc = findViewById(R.id.createItemDesc);
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference =firebaseStorage.getReference();
     }
 
     private void getIncomingIntent() {
@@ -103,7 +114,6 @@ public class createItemActivity extends AppCompatActivity {
             userName =getIntent().getStringExtra("username");
         }
     }
-
     private void chosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
