@@ -68,8 +68,8 @@ public class detailedItemActivity extends AppCompatActivity {
                     return;
                 }
                 double checkPrice = Double.parseDouble(newPriceInput);
-                if(checkPrice<price){
-                    Toast.makeText(getApplicationContext(),"You cannot bid with lower price.",Toast.LENGTH_SHORT).show();
+                if(checkPrice<=price){
+                    Toast.makeText(getApplicationContext(),"You cannot bid with lower or same price.",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 DatabaseReference changeItem = FirebaseDatabase.getInstance().getReference("Items").child(incomingId);

@@ -42,6 +42,7 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
     private User currentUser;
     private FirebaseAuth auth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,12 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+        ratingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),myRatingsActivity.class));
+            }
+        });
 
     }
     private void getIncomingIntent() {
@@ -118,7 +125,6 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
         profileImage = findViewById(R.id.profileImageOptions);
         userName = findViewById(R.id.optionsUsername);
         recyclerView = findViewById(R.id.myItemsRecView);
-
     }
     @Override
     public void onNoteClick(int position) {
