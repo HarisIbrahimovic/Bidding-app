@@ -46,18 +46,12 @@ public class signupActivity extends AppCompatActivity {
     private String imageUrl;
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        email = findViewById(R.id.signuEmail);
-        password = findViewById(R.id.signupPassword);
-        signUpButton = findViewById(R.id.signUpButton);
-        text = findViewById(R.id.signUpText);
-        username = findViewById(R.id.signUpUsername);
-        profileImage = findViewById(R.id.profilePic);
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference =firebaseStorage.getReference();
+        configWidgets();
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,38 +69,52 @@ public class signupActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setMessage("Processing..");
-                String Email = email.getText().toString();
-                String Password = password.getText().toString();
-                String name = username.getText().toString();
-                if(TextUtils.isEmpty(Email)||TextUtils.isEmpty(Password)||TextUtils.isEmpty(name)){
-                    Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressDialog.show();
-                auth = FirebaseAuth.getInstance();
-                auth.createUserWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                            HashMap<String, String> newUser = new HashMap<>();
-                            newUser.put("username",name);
-                            newUser.put("email",Email);
-                            newUser.put("password",Password);
-                            newUser.put("imageUrl",imageUrl);
-                            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-                            databaseReference.child(auth.getCurrentUser().getUid()).setValue(newUser);
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            progressDialog.dismiss();
-                        finish();}else {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Problems",Toast.LENGTH_SHORT).show();
-                        }}
-                });
+               createUser();
             }
         });
+    }
+
+    private void createUser() {
+        progressDialog.setMessage("Processing..");
+        String Email = email.getText().toString();
+        String Password = password.getText().toString();
+        String name = username.getText().toString();
+        if(TextUtils.isEmpty(Email)||TextUtils.isEmpty(Password)||TextUtils.isEmpty(name)){
+            Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialog.show();
+        auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    HashMap<String, String> newUser = new HashMap<>();
+                    newUser.put("username",name);
+                    newUser.put("email",Email);
+                    newUser.put("password",Password);
+                    newUser.put("imageUrl",imageUrl);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                    databaseReference.child(auth.getCurrentUser().getUid()).setValue(newUser);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    progressDialog.dismiss();
+                    finish();}else {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Problems",Toast.LENGTH_SHORT).show();
+                }}
+        });
+    }
+
+    private void configWidgets() {
+        email = findViewById(R.id.signuEmail);
+        password = findViewById(R.id.signupPassword);
+        signUpButton = findViewById(R.id.signUpButton);
+        text = findViewById(R.id.signUpText);
+        username = findViewById(R.id.signUpUsername);
+        profileImage = findViewById(R.id.profilePic);
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference =firebaseStorage.getReference();
     }
 
     private void chosePicture() {

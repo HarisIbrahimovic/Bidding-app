@@ -17,19 +17,21 @@ import com.example.bidingapplication.objects.item;
 import java.util.ArrayList;
 
 public class MyAdapterItems extends RecyclerView.Adapter<MyAdapterItems.MyViewHolder> {
-    ArrayList<item> items;
-    Context context;
+    private ArrayList<item> items;
+    private Context context;
+    private onNoteListener onNoteListener;
 
-    public MyAdapterItems(ArrayList<item> items, Context context) {
+    public MyAdapterItems(ArrayList<item> items, Context context,onNoteListener onNoteListener) {
         this.items = items;
         this.context = context;
+        this.onNoteListener = onNoteListener;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        View view = LayoutInflater.from(context).inflate(R.layout.item_layout,parent,false);
-       return new MyViewHolder(view);
+       return new MyViewHolder(view, onNoteListener);
     }
 
     @Override
@@ -48,15 +50,32 @@ public class MyAdapterItems extends RecyclerView.Adapter<MyAdapterItems.MyViewHo
         return items.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name = itemView.findViewById(R.id.itemNameView);
         TextView price = itemView.findViewById(R.id.itemPriceView);
         ImageView image = itemView.findViewById(R.id.imageItemView);
         TextView itemOwner = itemView.findViewById(R.id.itemOwner);
+        onNoteListener onNoteListener;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView,onNoteListener onNoteListener) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            this.onNoteListener=onNoteListener;
+
+
 
         }
+
+
+
+
+        @Override
+        public void onClick(View v) {
+            onNoteListener.onNoteClick(getAdapterPosition());
+
+        }
+    }
+    public interface  onNoteListener{
+            void onNoteClick(int position);
     }
 }

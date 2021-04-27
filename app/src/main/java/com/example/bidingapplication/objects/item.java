@@ -6,6 +6,16 @@ public class item {
     private String imageUrl;
     private String price;
     private String username;
+    private String id;
+    private String bestBid;
+
+    public String getBestBid() {
+        return bestBid;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;

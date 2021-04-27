@@ -10,10 +10,11 @@
     android:gravity="center"
     tools:context=".itemStuff.detailedItemActivity">
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/detailedItemImage"
+
         />
     <TextView
         android:layout_width="wrap_content"
@@ -61,5 +62,12 @@
         android:text="SUBMIT"
         android:background="@drawable/button"
         android:id="@+id/submitNewPrice"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Current best bidder:"
+        android:id="@+id/currentBestBid"
         />
 </LinearLayout>

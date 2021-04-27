@@ -30,11 +30,7 @@ public class loginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        email= findViewById(R.id.loginEmail);
-        password = findViewById(R.id.loginPassword);
-        loginButton = findViewById(R.id.loginButton);
-        text = findViewById(R.id.loginText);
-        progressDialog = new ProgressDialog(this);
+        configWidgets();
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,30 +41,43 @@ public class loginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Email = email.getText().toString();
-                String Password = password.getText().toString();
-                if(TextUtils.isEmpty(Email)||TextUtils.isEmpty(Password)){
-                    Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressDialog.setMessage("Processing...");
-                progressDialog.show();
-                auth = FirebaseAuth.getInstance();
-                auth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"Welcome",Toast.LENGTH_SHORT).show();
-                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                             progressDialog.dismiss();
-                        finish();}
-                        else{
-                            Toast.makeText(getApplicationContext(),"Problems..",Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    }
-                });
+                loginUser();
             }
         });
+    }
+
+
+    private void loginUser() {
+        String Email = email.getText().toString();
+        String Password = password.getText().toString();
+        if(TextUtils.isEmpty(Email)||TextUtils.isEmpty(Password)){
+            Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialog.setMessage("Processing...");
+        progressDialog.show();
+        auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),"Welcome",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    progressDialog.dismiss();
+                    finish();}
+                else{
+                    Toast.makeText(getApplicationContext(),"Problems..",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void configWidgets() {
+        email= findViewById(R.id.loginEmail);
+        password = findViewById(R.id.loginPassword);
+        loginButton = findViewById(R.id.loginButton);
+        text = findViewById(R.id.loginText);
+        progressDialog = new ProgressDialog(this);
     }
 }

@@ -25,7 +25,6 @@
         android:layout_margin="15dp"
         android:backgroundTint="@color/white"
         android:contentDescription="TODO"
-        android:elevation="10dp"
         android:src="@drawable/signoutpic"
         app:fabCustomSize="50dp"
         app:useCompatPadding="true" />
@@ -35,10 +34,22 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="15dp"
         android:src="@drawable/createpic"
-        android:elevation="10dp"
         android:backgroundTint="@color/white"
         app:fabCustomSize="50dp"
         android:id="@+id/addItem"
+        app:useCompatPadding="true" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/face"
+        android:elevation="10dp"
+        android:backgroundTint="@color/white"
+
+        android:id="@+id/myProfile"
         app:useCompatPadding="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

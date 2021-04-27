@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BidingApplication">
-        <activity android:name=".itemStuff.detailedItemActivity"></activity>
+        <activity android:name=".itemStuff.itemOptionsActivity"></activity>
+        <activity android:name=".profile.myProfileActivity" />
+        <activity android:name=".itemStuff.detailedItemActivity" />
         <activity android:name=".itemStuff.createItemActivity" />
         <activity android:name=".signup.signupActivity" />
         <activity android:name=".signup.loginActivity" />
