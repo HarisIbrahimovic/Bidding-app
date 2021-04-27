@@ -27,6 +27,8 @@ public class MyAdapterItems extends RecyclerView.Adapter<MyAdapterItems.MyViewHo
         this.onNoteListener = onNoteListener;
     }
 
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

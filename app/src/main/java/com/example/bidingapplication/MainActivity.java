@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.bidingapplication.adapters.MyAdapterItems;
 import com.example.bidingapplication.itemStuff.createItemActivity;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
         if(auth.getCurrentUser()==null){
             startActivity(new Intent(getApplicationContext(),loginActivity.class));
             finish();
+            return;
         }
         items = new ArrayList<>();
         myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
@@ -78,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
                 items.clear();
                     for(DataSnapshot snapshot1: snapshot.getChildren()){
                         item Item = snapshot1.getValue(item.class);
-                        items.add(Item);
+                        if(Item.getOwnerId().equals(auth.getCurrentUser().getUid())){
+
+                        }else  items.add(Item);
                     }
                 myAdapterItems.notifyDataSetChanged();
             }
@@ -109,13 +113,19 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), myProfileActivity.class);
-                intent.putExtra("username",currentUser.getUsername());
-                intent.putExtra("imageUrl",currentUser.getImageUrl());
-                intent.putExtra("email",currentUser.getEmail());
-                intent.putExtra("password",currentUser.getPassword());
-                intent.putExtra("id",auth.getCurrentUser().getUid());
-                startActivity(intent);
+
+                try {
+                    Intent intent = new Intent(getApplicationContext(), myProfileActivity.class);
+                    intent.putExtra("username",currentUser.getUsername());
+                    intent.putExtra("imageUrl",currentUser.getImageUrl());
+                    intent.putExtra("email",currentUser.getEmail());
+                    intent.putExtra("password",currentUser.getPassword());
+                    intent.putExtra("id",auth.getCurrentUser().getUid());
+                    startActivity(intent);
+                }
+                catch(Exception e) {
+                    Toast.makeText(getApplicationContext(), "Just a momment", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -127,10 +137,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
         logout = findViewById(R.id.logoutButton);
         myProfile = findViewById(R.id.myProfile);
         recyclerView = findViewById(R.id.itemRecyclerView);
-        myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(myAdapterItems);
+
     }
 
     @Override

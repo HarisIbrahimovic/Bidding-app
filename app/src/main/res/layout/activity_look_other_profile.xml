@@ -42,18 +42,25 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:fabCustomSize="50dp"
             android:src="@drawable/myratings"
             android:backgroundTint="@color/white"
+            android:layout_gravity="bottom"
+            android:layout_margin="15dp"
+            android:id="@+id/ratePerson"
+            app:useCompatPadding="true" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fabCustomSize="50dp"
+            android:src="@drawable/message"
+            android:backgroundTint="@color/white"
             android:layout_gravity="bottom|end"
             android:layout_margin="15dp"
-            android:id="@+id/starFive"
+            android:id="@+id/messagePerson"
             app:useCompatPadding="true" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </LinearLayout>
