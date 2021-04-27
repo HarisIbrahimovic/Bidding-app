@@ -57,7 +57,7 @@ public class lookOtherProfileActivity extends AppCompatActivity implements MyAda
         findItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                items.clear();
                 for(DataSnapshot snapshot1: snapshot.getChildren()){
                     item Item = snapshot1.getValue(item.class);
                     if(Item.getOwnerId().equals(id)){

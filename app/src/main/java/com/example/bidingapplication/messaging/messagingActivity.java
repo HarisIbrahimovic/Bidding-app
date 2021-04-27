@@ -72,8 +72,11 @@ public class messagingActivity extends AppCompatActivity {
         messageContent = findViewById(R.id.textSend);
         recyclerView = findViewById(R.id.recyclerViewMess);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         MyAdapterMessages myAdapterMessages = new MyAdapterMessages(messages,this);
+
         recyclerView.setAdapter(myAdapterMessages);
         addMessages.addValueEventListener(new ValueEventListener() {
             @Override
