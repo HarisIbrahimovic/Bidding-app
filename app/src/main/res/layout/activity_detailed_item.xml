@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="Offer a bigger price"
+        android:inputType="numberDecimal"
         android:textAlignment="center"
         android:id="@+id/newBid"
         />

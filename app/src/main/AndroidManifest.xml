@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BidingApplication">
-        <activity android:name=".messaging.messagingActivity"></activity>
+        <activity android:name=".messaging.myMessagesActivity"></activity>
+        <activity android:name=".messaging.messagingActivity" />
         <activity android:name=".profile.seeOthersRaitingActivity" />
         <activity android:name=".profile.lookOtherProfileActivity" />
         <activity android:name=".profile.myRatingsActivity" />

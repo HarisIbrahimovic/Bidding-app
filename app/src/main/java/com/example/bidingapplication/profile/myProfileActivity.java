@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.bidingapplication.R;
 import com.example.bidingapplication.adapters.MyAdapterMyItems;
 import com.example.bidingapplication.itemStuff.itemOptionsActivity;
+import com.example.bidingapplication.messaging.myMessagesActivity;
 import com.example.bidingapplication.objects.User;
 import com.example.bidingapplication.objects.item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +42,7 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
     private ArrayList<item> items;
     private User currentUser;
     private FirebaseAuth auth;
+    private FloatingActionButton myMessages;
 
 
     @Override
@@ -108,6 +110,13 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
                 startActivity(new Intent(getApplicationContext(),myRatingsActivity.class));
             }
         });
+        myMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), myMessagesActivity.class));
+
+            }
+        });
 
     }
     private void getIncomingIntent() {
@@ -125,6 +134,7 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
         profileImage = findViewById(R.id.profileImageOptions);
         userName = findViewById(R.id.optionsUsername);
         recyclerView = findViewById(R.id.myItemsRecView);
+        myMessages = findViewById(R.id.myMessages);
     }
     @Override
     public void onNoteClick(int position) {

@@ -32,10 +32,8 @@ public class MyAdapterRating extends RecyclerView.Adapter<MyAdapterRating.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         holder.ratingDesc.setText(ratings.get(position).getDesc());
-        holder.ratingScore.setText(ratings.get(position).getStars());
-
+        holder.ratingScore.setText(ratings.get(position).getStars()+"/5");
     }
 
     @Override
