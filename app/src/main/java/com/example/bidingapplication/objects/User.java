@@ -5,7 +5,11 @@ public class User {
     private String imageUrl;
     private String email;
     private String password;
+    private String id;
 
+    public String getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;

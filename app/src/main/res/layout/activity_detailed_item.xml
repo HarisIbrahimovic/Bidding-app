@@ -9,7 +9,9 @@
     android:layout_gravity="center"
     android:gravity="center"
     tools:context=".itemStuff.detailedItemActivity">
+
     <ImageView
+        android:layout_marginTop="70dp"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@mipmap/ic_launcher"
@@ -24,14 +26,7 @@
         android:textSize="25sp"
         android:id="@+id/detailedItemName"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="userName"
-        android:textSize="15sp"
-        android:id="@+id/detailedItemUserName"
-        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="200.0"
+        android:text="$200.0"
         android:textSize="30sp"
         android:id="@+id/currentPrice"
         />
@@ -59,6 +54,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="SUBMIT"
         android:background="@drawable/button"
         android:id="@+id/submitNewPrice"
@@ -66,8 +62,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+
         android:text="Current best bidder:"
         android:id="@+id/currentBestBid"
         />
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="15dp"
+        android:src="@drawable/face"
+        android:elevation="10dp"
+        android:backgroundTint="@color/white"
+        android:id="@+id/seeOwnerProfile"
+        app:useCompatPadding="true" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

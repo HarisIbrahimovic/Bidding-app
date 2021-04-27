@@ -95,6 +95,7 @@ public class signupActivity extends AppCompatActivity {
                     newUser.put("email",Email);
                     newUser.put("password",Password);
                     newUser.put("imageUrl",imageUrl);
+                    newUser.put("id",auth.getCurrentUser().getUid());
                     databaseReference = FirebaseDatabase.getInstance().getReference("Users");
                     databaseReference.child(auth.getCurrentUser().getUid()).setValue(newUser);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
