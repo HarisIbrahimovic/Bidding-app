@@ -34,7 +34,6 @@ public class itemOptionsActivity extends AppCompatActivity {
     private ImageView image;
     private Button deleteButton, updateButton;
     private DatabaseReference databaseReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +65,7 @@ public class itemOptionsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
-
     private void configWidgets() {
         name = findViewById(R.id.upadteItemName);
         price = findViewById(R.id.updateItemPrice);
@@ -80,9 +77,7 @@ public class itemOptionsActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteBUtton);
         updateButton = findViewById(R.id.updateButton);
         Glide.with(getApplicationContext()).load(ImageUrl).into(image);
-
     }
-
     private void getIncomingIntent() {
         if(getIntent().hasExtra("name")&&getIntent().hasExtra("id")&&getIntent().hasExtra("desc")&&getIntent().hasExtra("price")&&getIntent().hasExtra("imageUrl")){
             Name = getIntent().getStringExtra("name");
@@ -91,9 +86,5 @@ public class itemOptionsActivity extends AppCompatActivity {
             Price = getIntent().getStringExtra("price");
             ImageUrl = getIntent().getStringExtra("imageUrl");
         }
-
     }
-
-
-
 }

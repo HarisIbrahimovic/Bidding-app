@@ -51,7 +51,6 @@ public class detailedItemActivity extends AppCompatActivity {
     private FloatingActionButton ownerProfile;
     private String currentBestBidString;
     private DatabaseReference userReference;
-    private User owner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

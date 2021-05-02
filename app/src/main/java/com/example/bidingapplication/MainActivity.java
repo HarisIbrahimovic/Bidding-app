@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
     private ArrayList<item> items;
     private User currentUser;
     private DatabaseReference usersRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
         }
         setContentView(R.layout.activity_main);
         configWidgets();
-
         items = new ArrayList<>();
         myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
         recyclerView.setHasFixedSize(true);
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -126,17 +123,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
             }
         });
     }
-
-
-
     private void configWidgets() {
         addItem = findViewById(R.id.addItem);
         logout = findViewById(R.id.logoutButton);
         myProfile = findViewById(R.id.myProfile);
         recyclerView = findViewById(R.id.itemRecyclerView);
-
     }
-
     @Override
     public void onNoteClick(int position) {
         Intent intent = new Intent(getApplicationContext(),detailedItemActivity.class);

@@ -44,7 +44,6 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
         databaseReference= FirebaseDatabase.getInstance().getReference("Users");
         messageReference = FirebaseDatabase.getInstance().getReference("Messages");
         users.clear();
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -57,7 +56,6 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
                                 message Message = dataSnapshot.getValue(message.class);
                                 if(Message.getReciverId().equals(auth.getCurrentUser().getUid())||Message.getSenderId().equals(auth.getCurrentUser().getUid())) {
                                     if(user.getId().equals(auth.getCurrentUser().getUid())){
-
                                     }
                                     else {
                                         if(usersIds.contains(user.getId()))break;
@@ -76,21 +74,13 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
                 }
                 myAdapterUsers.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-
-
-
     }
-
     @Override
     public void onNoteClick(int position) {
-
         Intent intent = new Intent(getApplicationContext(),messagingActivity.class);
         intent.putExtra("id",users.get(position).getId());
         startActivity(intent);

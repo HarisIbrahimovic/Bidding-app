@@ -76,7 +76,6 @@ public class messagingActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         MyAdapterMessages myAdapterMessages = new MyAdapterMessages(messages,this);
-
         recyclerView.setAdapter(myAdapterMessages);
         addMessages.addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,13 +89,10 @@ public class messagingActivity extends AppCompatActivity {
                     myAdapterMessages.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +110,6 @@ public class messagingActivity extends AppCompatActivity {
             }
         });
     }
-
     private void getIncomingIntent() {
         if(getIntent().hasExtra("id"))reciverId=getIntent().getStringExtra("id");
     }

@@ -46,7 +46,6 @@ public class signupActivity extends AppCompatActivity {
     private String imageUrl;
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +72,6 @@ public class signupActivity extends AppCompatActivity {
             }
         });
     }
-
     private void createUser() {
         progressDialog.setMessage("Processing..");
         String Email = email.getText().toString();
@@ -106,7 +104,6 @@ public class signupActivity extends AppCompatActivity {
                 }}
         });
     }
-
     private void configWidgets() {
         email = findViewById(R.id.signuEmail);
         password = findViewById(R.id.signupPassword);
@@ -117,14 +114,12 @@ public class signupActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference =firebaseStorage.getReference();
     }
-
     private void chosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,1);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,12 +129,10 @@ public class signupActivity extends AppCompatActivity {
             uploadPicture();
         }
     }
-
     private void uploadPicture() {
         final String randomKey = UUID.randomUUID().toString();
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Uploading..");
-
         StorageReference ref = storageReference.child("images/"+randomKey);
         imageUrl = imageUri.toString();
         progressDialog.show();
