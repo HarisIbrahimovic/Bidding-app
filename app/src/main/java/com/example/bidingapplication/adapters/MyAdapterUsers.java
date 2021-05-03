@@ -66,8 +66,8 @@ public class MyAdapterUsers extends RecyclerView.Adapter<MyAdapterUsers.MyViewHo
             TouchListener.onNoteClick(getAdapterPosition());
         }
     }
-    public interface touchListener{
-        void onNoteClick(int position);
+        public interface touchListener{
+            void onNoteClick(int position);
 
-    }
+        }
 }

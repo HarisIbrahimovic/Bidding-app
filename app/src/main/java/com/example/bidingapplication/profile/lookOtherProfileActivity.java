@@ -42,18 +42,14 @@ public class lookOtherProfileActivity extends AppCompatActivity implements MyAda
     private RecyclerView personItemsRec;
     private TextView personRatings;
     private MyAdapterItems myAdapterItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look_other_profile);
         getIncomingIntent();
         configWidgets();
-        items = new ArrayList<>();
-        personItemsRec.setHasFixedSize(true);
-        personItemsRec.setLayoutManager(new LinearLayoutManager(this));
-        myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
-        personItemsRec.setAdapter(myAdapterItems);
-        findItems = FirebaseDatabase.getInstance().getReference("Items");
+
         findItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -122,6 +118,12 @@ public class lookOtherProfileActivity extends AppCompatActivity implements MyAda
         ratePersonButton = findViewById(R.id.ratePerson);
         personItemsRec = findViewById(R.id.personItemsRec);
         messagesButton = findViewById(R.id.messagePerson);
+        items = new ArrayList<>();
+        personItemsRec.setHasFixedSize(true);
+        personItemsRec.setLayoutManager(new LinearLayoutManager(this));
+        myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
+        personItemsRec.setAdapter(myAdapterItems);
+        findItems = FirebaseDatabase.getInstance().getReference("Items");
     }
 
     private void getIncomingIntent() {

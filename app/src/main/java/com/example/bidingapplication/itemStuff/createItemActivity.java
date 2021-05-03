@@ -43,6 +43,7 @@ public class createItemActivity extends AppCompatActivity {
     private ProgressDialog progressDialogOne;
     private String userName;
     private FirebaseAuth auth;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,12 +140,19 @@ public class createItemActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading..");
         progressDialog.show();
         StorageReference ref = storageReference.child("images/"+randomKey);
-        imageUrl = imageUri.toString();
+
         ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),"Done upload..",Toast.LENGTH_SHORT).show();
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Done upload..",Toast.LENGTH_SHORT).show();
+                        imageUrl = uri.toString();
+                    }
+                });
+
             }
         });
     }

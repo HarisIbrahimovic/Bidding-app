@@ -32,14 +32,7 @@ public class seeOthersRaitingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_others_raiting);
         getIncomingIntent();
-        ratings = new ArrayList<>();
-        recyclerView = findViewById(R.id.otherPersonRecView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapterRating = new MyAdapterRating(getApplicationContext(),ratings);
-        recyclerView.setAdapter(myAdapterRating);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Ratings");
+        setUpStuff();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -57,6 +50,16 @@ public class seeOthersRaitingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setUpStuff() {
+        ratings = new ArrayList<>();
+        recyclerView = findViewById(R.id.otherPersonRecView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapterRating = new MyAdapterRating(getApplicationContext(),ratings);
+        recyclerView.setAdapter(myAdapterRating);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Ratings");
     }
 
     private void getIncomingIntent() {

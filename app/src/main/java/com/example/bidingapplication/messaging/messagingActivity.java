@@ -19,6 +19,7 @@ import com.example.bidingapplication.adapters.MyAdapterMessages;
 import com.example.bidingapplication.objects.User;
 import com.example.bidingapplication.objects.message;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,15 +41,16 @@ public class messagingActivity extends AppCompatActivity {
     private ArrayList<message> messages;
     private RecyclerView recyclerView;
     private FirebaseAuth auth;
+    private MyAdapterMessages myAdapterMessages;
     private DatabaseReference addMessages;
+    private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
         getIncomingIntent();
-        auth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Messages");
-        findUser = FirebaseDatabase.getInstance().getReference("Users");
+        setUpStuff();
+
         findUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,32 +67,20 @@ public class messagingActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        addMessages = FirebaseDatabase.getInstance().getReference("Messages");
-        messages = new ArrayList<>();
-        sendMessage = findViewById(R.id.sendButton);
-        personName = findViewById(R.id.messReciverName);
-        messageContent = findViewById(R.id.textSend);
-        recyclerView = findViewById(R.id.recyclerViewMess);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        MyAdapterMessages myAdapterMessages = new MyAdapterMessages(messages,this);
 
-        recyclerView.setAdapter(myAdapterMessages);
         addMessages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messages.clear();
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
                     message Message = snapshot1.getValue(message.class);
-                    if(Message.getReciverId().equals(reciverId)||Message.getSenderId().equals(reciverId)||Message.getReciverId().equals(senderId)||Message.getSenderId().equals(senderId)){
+                    if(Message.getSenderId().equals(reciverId)&&Message.getReciverId().equals(user.getUid())
+                            ||Message.getSenderId().equals(user.getUid())&&Message.getReciverId().equals(reciverId)){
                         messages.add(Message);
                     }
-                    myAdapterMessages.notifyDataSetChanged();
                 }
+                myAdapterMessages.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -113,6 +103,25 @@ public class messagingActivity extends AppCompatActivity {
                 messageContent.setText("");
             }
         });
+    }
+
+    private void setUpStuff() {
+        addMessages = FirebaseDatabase.getInstance().getReference("Messages");
+        messages = new ArrayList<>();
+        sendMessage = findViewById(R.id.sendButton);
+        personName = findViewById(R.id.messReciverName);
+        messageContent = findViewById(R.id.textSend);
+        recyclerView = findViewById(R.id.recyclerViewMess);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        myAdapterMessages = new MyAdapterMessages(messages,this);
+        user = auth.getCurrentUser();
+        recyclerView.setAdapter(myAdapterMessages);
+        auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Messages");
+        findUser = FirebaseDatabase.getInstance().getReference("Users");
     }
 
     private void getIncomingIntent() {

@@ -30,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class myProfileActivity extends AppCompatActivity implements  MyAdapterMyItems.onNoteListener2{
-
     private FloatingActionButton settings, ratingsButton;
     private ImageView profileImage;
     private TextView userName;
@@ -44,21 +43,13 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
     private FirebaseAuth auth;
     private FloatingActionButton myMessages;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         configWidget();
         getIncomingIntent();
-        items= new ArrayList<>();
-        userName.setText(UserName);
-        Glide.with(getApplicationContext()).load(UserPicture).into(profileImage);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapterMyItems = new MyAdapterMyItems(items,getApplicationContext(),this);
-        recyclerView.setAdapter(myAdapterMyItems);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,6 +66,8 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +80,7 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
                 startActivity(intent);
             }
         });
-        auth = FirebaseAuth.getInstance();
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("Users");
+
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -135,6 +127,16 @@ public class myProfileActivity extends AppCompatActivity implements  MyAdapterMy
         userName = findViewById(R.id.optionsUsername);
         recyclerView = findViewById(R.id.myItemsRecView);
         myMessages = findViewById(R.id.myMessages);
+        items= new ArrayList<>();
+        userName.setText(UserName);
+        Glide.with(getApplicationContext()).load(UserPicture).into(profileImage);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapterMyItems = new MyAdapterMyItems(items,getApplicationContext(),this);
+        recyclerView.setAdapter(myAdapterMyItems);
+        auth = FirebaseAuth.getInstance();
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("Users");
     }
     @Override
     public void onNoteClick(int position) {

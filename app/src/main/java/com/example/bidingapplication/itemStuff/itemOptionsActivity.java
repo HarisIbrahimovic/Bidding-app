@@ -41,21 +41,11 @@ public class itemOptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_options);
         getIncomingIntent();
         configWidgets();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Items").child(Id);
+
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newName = name.getText().toString();
-                String newDesc = desc.getText().toString();
-                String newPrice= price.getText().toString();
-                if(TextUtils.isEmpty(newName)||TextUtils.isEmpty(newDesc)||TextUtils.isEmpty(newPrice)){
-                    Toast.makeText(getApplicationContext(),"Fill in the fields",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                databaseReference.child("name").setValue(newName);
-                databaseReference.child("desc").setValue(newDesc);
-                databaseReference.child("price").setValue(newPrice);
-                Toast.makeText(getApplicationContext(),"Succesfully updated.",Toast.LENGTH_SHORT).show();
+                updateUser();
                 }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +59,20 @@ public class itemOptionsActivity extends AppCompatActivity {
 
     }
 
+    private void updateUser() {
+        String newName = name.getText().toString();
+        String newDesc = desc.getText().toString();
+        String newPrice= price.getText().toString();
+        if(TextUtils.isEmpty(newName)||TextUtils.isEmpty(newDesc)||TextUtils.isEmpty(newPrice)){
+            Toast.makeText(getApplicationContext(),"Fill in the fields",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        databaseReference.child("name").setValue(newName);
+        databaseReference.child("desc").setValue(newDesc);
+        databaseReference.child("price").setValue(newPrice);
+        Toast.makeText(getApplicationContext(),"Succesfully updated.",Toast.LENGTH_SHORT).show();
+    }
+
     private void configWidgets() {
         name = findViewById(R.id.upadteItemName);
         price = findViewById(R.id.updateItemPrice);
@@ -80,6 +84,7 @@ public class itemOptionsActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteBUtton);
         updateButton = findViewById(R.id.updateButton);
         Glide.with(getApplicationContext()).load(ImageUrl).into(image);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Items").child(Id);
 
     }
 

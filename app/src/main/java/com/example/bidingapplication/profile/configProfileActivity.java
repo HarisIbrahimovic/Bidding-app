@@ -60,25 +60,11 @@ public class configProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config_profile);
         getIncomingIntent();
         configWidgets();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        auth = FirebaseAuth.getInstance();
+
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newEmail = email.getText().toString();
-                String newName = name.getText().toString();
-                String newPass = password.getText().toString();
-                if(TextUtils.isEmpty(newEmail)||TextUtils.isEmpty(newPass)||TextUtils.isEmpty(newName)){
-                    Toast.makeText(getApplicationContext(),"Fill in the fields",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                databaseReference.child(auth.getCurrentUser().getUid()).child("email").setValue(newEmail);
-                databaseReference.child(auth.getCurrentUser().getUid()).child("password").setValue(newPass);
-                databaseReference.child(auth.getCurrentUser().getUid()).child("username").setValue(newName);
-                databaseReference.child(auth.getCurrentUser().getUid()).child("imageUrl").setValue(newImageUrl);
-                auth.getCurrentUser().updateEmail(newEmail);
-                auth.getCurrentUser().updatePassword(newPass);
-                Toast.makeText(getApplicationContext(),"Succesfully updated..",Toast.LENGTH_SHORT).show();
+                updateUser();
             }
         });
 
@@ -89,6 +75,23 @@ public class configProfileActivity extends AppCompatActivity {
                 chosePicture();
             }
         });
+    }
+
+    private void updateUser() {
+        String newEmail = email.getText().toString();
+        String newName = name.getText().toString();
+        String newPass = password.getText().toString();
+        if(TextUtils.isEmpty(newEmail)||TextUtils.isEmpty(newPass)||TextUtils.isEmpty(newName)){
+            Toast.makeText(getApplicationContext(),"Fill in the fields",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        databaseReference.child(auth.getCurrentUser().getUid()).child("email").setValue(newEmail);
+        databaseReference.child(auth.getCurrentUser().getUid()).child("password").setValue(newPass);
+        databaseReference.child(auth.getCurrentUser().getUid()).child("username").setValue(newName);
+        databaseReference.child(auth.getCurrentUser().getUid()).child("imageUrl").setValue(newImageUrl);
+        auth.getCurrentUser().updateEmail(newEmail);
+        auth.getCurrentUser().updatePassword(newPass);
+        Toast.makeText(getApplicationContext(),"Succesfully updated..",Toast.LENGTH_SHORT).show();
     }
 
     private void configWidgets() {
@@ -103,6 +106,8 @@ public class configProfileActivity extends AppCompatActivity {
         password.setText(UserPassword);
         image = findViewById(R.id.configProfilePicture);
         Glide.with(getApplicationContext()).load(UserPicture).into(image);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        auth = FirebaseAuth.getInstance();
     }
 
 
@@ -139,7 +144,7 @@ public class configProfileActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading..");
 
         StorageReference ref = storageReference.child("images/"+randomKey);
-        newImageUrl = imageUri.toString();
+
         progressDialog.show();
         ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -147,6 +152,12 @@ public class configProfileActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Done upload..",Toast.LENGTH_SHORT).show();
                 Glide.with(getApplicationContext()).load(newImageUrl).into(image);
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        newImageUrl = uri.toString();
+                    }
+                });
             }
         });
     }

@@ -51,7 +51,7 @@ public class detailedItemActivity extends AppCompatActivity {
     private FloatingActionButton ownerProfile;
     private String currentBestBidString;
     private DatabaseReference userReference;
-    private User owner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,25 +62,10 @@ public class detailedItemActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newPriceInput = newPrice.getText().toString();
-                if(TextUtils.isEmpty(newPriceInput)){
-                    Toast.makeText(getApplicationContext(), "Enter price", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                double checkPrice = Double.parseDouble(newPriceInput);
-                if(checkPrice<=price){
-                    Toast.makeText(getApplicationContext(),"You cannot bid with lower or same price.",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                DatabaseReference changeItem = FirebaseDatabase.getInstance().getReference("Items").child(incomingId);
-                changeItem.child("price").setValue(newPriceInput);
-                changeItem.child("bestBid").setValue(incomingCurrentUsername);
-                Toast.makeText(getApplicationContext(), "Bid placed", Toast.LENGTH_SHORT).show();
-                currentBestBid.setText("Current best bid: "+ incomingCurrentUsername);
-                itemPrice.setText("$"+newPriceInput);
+                submitPrice();
             }
         });
-        userReference = FirebaseDatabase.getInstance().getReference("Users");
+
         ownerProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,8 +75,27 @@ public class detailedItemActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void submitPrice() {
+        String newPriceInput = newPrice.getText().toString();
+        if(TextUtils.isEmpty(newPriceInput)){
+            Toast.makeText(getApplicationContext(), "Enter price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        double checkPrice = Double.parseDouble(newPriceInput);
+        if(checkPrice<=price){
+            Toast.makeText(getApplicationContext(),"You cannot bid with lower or same price.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        DatabaseReference changeItem = FirebaseDatabase.getInstance().getReference("Items").child(incomingId);
+        changeItem.child("price").setValue(newPriceInput);
+        changeItem.child("bestBid").setValue(incomingCurrentUsername);
+        Toast.makeText(getApplicationContext(), "Bid placed", Toast.LENGTH_SHORT).show();
+        currentBestBid.setText("Current best bid: "+ incomingCurrentUsername);
+        itemPrice.setText("$"+newPriceInput);
+    }
+
     private void getCurrentItem() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -123,6 +127,8 @@ public class detailedItemActivity extends AppCompatActivity {
         itemPrice.setText("$"+incomingPrice);
         currentBestBid = findViewById(R.id.currentBestBid);
         currentBestBid.setText("Current best bid: "+ currentBestBidString);
+        userReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
     }
     private void getIntentConfig() {
         if(getIntent().hasExtra("name")&&getIntent().hasExtra("desc")&&getIntent().hasExtra("imageUrl")&&getIntent().hasExtra("currentUserName")

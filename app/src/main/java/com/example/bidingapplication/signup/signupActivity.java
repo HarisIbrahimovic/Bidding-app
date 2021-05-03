@@ -52,13 +52,14 @@ public class signupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         configWidgets();
+
+        //clickListeners
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chosePicture();
             }
         });
-        progressDialog = new ProgressDialog(this);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +76,6 @@ public class signupActivity extends AppCompatActivity {
     }
 
     private void createUser() {
-        progressDialog.setMessage("Processing..");
         String Email = email.getText().toString();
         String Password = password.getText().toString();
         String name = username.getText().toString();
@@ -83,8 +83,8 @@ public class signupActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Fill in the fields.",Toast.LENGTH_SHORT).show();
             return;
         }
+        progressDialog.setMessage("Processing..");
         progressDialog.show();
-        auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -100,10 +100,12 @@ public class signupActivity extends AppCompatActivity {
                     databaseReference.child(auth.getCurrentUser().getUid()).setValue(newUser);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     progressDialog.dismiss();
-                    finish();}else {
+                    finish();}
+                else {
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"Problems",Toast.LENGTH_SHORT).show();
-                }}
+                    }
+            }
         });
     }
 
@@ -116,6 +118,8 @@ public class signupActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profilePic);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference =firebaseStorage.getReference();
+        auth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
     }
 
     private void chosePicture() {
@@ -139,15 +143,19 @@ public class signupActivity extends AppCompatActivity {
         final String randomKey = UUID.randomUUID().toString();
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Uploading..");
-
         StorageReference ref = storageReference.child("images/"+randomKey);
-        imageUrl = imageUri.toString();
         progressDialog.show();
         ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Done upload..",Toast.LENGTH_SHORT).show();
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imageUrl = uri.toString();
+                    }
+                });
             }
         });
     }

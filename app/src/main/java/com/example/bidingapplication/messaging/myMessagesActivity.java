@@ -33,21 +33,12 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_messages);
-        recyclerView = findViewById(R.id.myMessRecView);
-        users = new ArrayList<>();
-        usersIds=new ArrayList<>();
-        myAdapterUsers = new MyAdapterUsers(users,getApplicationContext(), this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(myAdapterUsers);
-        auth = FirebaseAuth.getInstance();
-        databaseReference= FirebaseDatabase.getInstance().getReference("Users");
-        messageReference = FirebaseDatabase.getInstance().getReference("Messages");
-        users.clear();
-
+        setUpStuff();
+        //getMyMessagesfromFB
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
                     messageReference.addValueEventListener(new ValueEventListener() {
@@ -55,7 +46,9 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                                 message Message = dataSnapshot.getValue(message.class);
-                                if(Message.getReciverId().equals(auth.getCurrentUser().getUid())||Message.getSenderId().equals(auth.getCurrentUser().getUid())) {
+                                if(Message.getReciverId().equals(auth.getCurrentUser().getUid())&&Message.getSenderId().equals(user.getId())||
+                                        Message.getReciverId().equals(user.getId())&&Message.getSenderId().equals(auth.getCurrentUser().getUid())
+                                ) {
                                     if(user.getId().equals(auth.getCurrentUser().getUid())){
 
                                     }
@@ -76,15 +69,27 @@ public class myMessagesActivity extends AppCompatActivity implements MyAdapterUs
                 }
                 myAdapterUsers.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
 
 
+
+    }
+
+    private void setUpStuff() {
+        recyclerView = findViewById(R.id.myMessRecView);
+        users = new ArrayList<>();
+        usersIds=new ArrayList<>();
+        myAdapterUsers = new MyAdapterUsers(users,getApplicationContext(), this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(myAdapterUsers);
+        auth = FirebaseAuth.getInstance();
+        databaseReference= FirebaseDatabase.getInstance().getReference("Users");
+        messageReference = FirebaseDatabase.getInstance().getReference("Messages");
 
     }
 

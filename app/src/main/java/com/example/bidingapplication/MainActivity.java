@@ -44,24 +44,15 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
-        if(auth.getCurrentUser()==null){
-            startActivity(new Intent(getApplicationContext(),loginActivity.class));
-            finish();
-        }
+        checkUser();
         setContentView(R.layout.activity_main);
         configWidgets();
-
-        items = new ArrayList<>();
-        myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(myAdapterItems);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
-        usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        //dbStuff
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1: snapshot.getChildren()){
+                    if(auth.getCurrentUser()==null)return;
                     if(snapshot1.getKey().equals(auth.getCurrentUser().getUid())){
                         currentUser= snapshot1.getValue(User.class);
                         break;
@@ -79,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
                 items.clear();
                     for(DataSnapshot snapshot1: snapshot.getChildren()){
                         item Item = snapshot1.getValue(item.class);
+                        if(auth.getCurrentUser()==null)return;
                         if(Item.getOwnerId().equals(auth.getCurrentUser().getUid())){
 
                         }else  items.add(Item);
@@ -90,27 +82,35 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
 
             }
         });
+        //clickListeners
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
                 auth.signOut();
                 startActivity(new Intent(getApplicationContext(),loginActivity.class));
-                finish();
+                finish();}
+                catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "Just a momment", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
                 Intent intent = new Intent(getApplicationContext(),createItemActivity.class);
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("username",currentUser.getUsername());
                 startActivity(intent);
+                }catch(Exception e) {
+                    Toast.makeText(getApplicationContext(), "Just a momment", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
                     Intent intent = new Intent(getApplicationContext(), myProfileActivity.class);
                     intent.putExtra("username",currentUser.getUsername());
@@ -128,13 +128,26 @@ public class MainActivity extends AppCompatActivity implements MyAdapterItems.on
     }
 
 
+    private void checkUser() {
+        if(auth.getCurrentUser()==null){
+        startActivity(new Intent(getApplicationContext(),loginActivity.class));
+        finish();
+        }
+    }
+
 
     private void configWidgets() {
         addItem = findViewById(R.id.addItem);
         logout = findViewById(R.id.logoutButton);
         myProfile = findViewById(R.id.myProfile);
         recyclerView = findViewById(R.id.itemRecyclerView);
-
+        items = new ArrayList<>();
+        myAdapterItems = new MyAdapterItems(items,getApplicationContext(),this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(myAdapterItems);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Items");
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
     }
 
     @Override
