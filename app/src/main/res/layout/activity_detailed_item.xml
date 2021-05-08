@@ -9,13 +9,24 @@
     android:layout_gravity="center"
     android:gravity="center"
     tools:context=".itemStuff.detailedItemActivity">
-
-    <ImageView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="50dp"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/detailedItemImage"
+        android:layout_gravity="center"
 
         />
     <TextView
@@ -68,10 +79,11 @@
         android:text="Current best bidder:"
         android:id="@+id/currentBestBid"
         />
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+
+
+</LinearLayout>
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

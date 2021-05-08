@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bidingapplication.R;
 import com.example.bidingapplication.adapters.MyAdapterMessages;
@@ -90,9 +91,12 @@ public class messagingActivity extends AppCompatActivity {
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
                 content = messageContent.getText().toString();
                 if(TextUtils.isEmpty(content)||content.equals("")){
                     return;
+                }}catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Just a momment", Toast.LENGTH_SHORT).show();
                 }
                 senderId = auth.getCurrentUser().getUid();
                 HashMap<String,String> newMess = new HashMap<>();
@@ -116,10 +120,10 @@ public class messagingActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        myAdapterMessages = new MyAdapterMessages(messages,this);
-        user = auth.getCurrentUser();
+        myAdapterMessages = new MyAdapterMessages(messages,getApplicationContext());
         recyclerView.setAdapter(myAdapterMessages);
         auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Messages");
         findUser = FirebaseDatabase.getInstance().getReference("Users");
     }

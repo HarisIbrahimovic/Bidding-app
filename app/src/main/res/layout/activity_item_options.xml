@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".itemStuff.itemOptionsActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:src="@mipmap/ic_launcher"

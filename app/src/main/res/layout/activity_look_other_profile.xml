@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/tabdesign"
     tools:context=".profile.myProfileActivity">
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@mipmap/ic_launcher"
